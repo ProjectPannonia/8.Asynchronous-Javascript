@@ -87,12 +87,21 @@
         getRecipesAW().then(result => console.log(`${result} is the best ever!`));
         */
 //'http://whateverorigin.org/https://www.metaweather.com/api/location/2487956'
-        fetch('http://www.whateverorigin.org/get?url=' + encodeURIComponent('https://www.metaweather.com/api/location/2487956') + '&callback=?', function(data){alert(data.contents)'
-        )
-        .then(result => {
-          console.log(result);
-        })
-        .catch(error => console.log(error));
+        
+        function getWeather(worldId) {
+          fetch
+          (`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${worldId}/`).then(result => {
+                                                                                                          console.log(result);
+                                                                                                          return result.json();})
+                                                                                                        .then(data => {
+                                                                                                          //console.log(data);
+                                                                                                          const today = data.consolidated_weather[0];
+                                                                                                          console.log(`Temperatures in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`)})
+                                                                                                        .catch(error => console.log(error));
+        };
+        
+        getWeather(2487956);
+        getWeather(44418);
 
     </script>
   </body>
