@@ -13,11 +13,9 @@
             setTimeout(() => {
                 const recipeID = [523, 883, 432, 974];
                 console.log(recipeID);
-
                 setTimeout(id => {
                     const recipe = {title: 'Fresh tomato pasta', publisher: 'Jonas'};
                     console.log(`${id}: ${recipe.title}`);
-
                     setTimeout(publisher => {
                         const recipe = {title: 'Italian Pizza', publisher: 'Jonas'};
                         console.log(recipe);
@@ -26,13 +24,11 @@
             }, 1500);
         }
         getRecipe(); 
-
       const getIds = new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve([523, 883, 432, 974]);
         }, 1500);
       });
-
       const getRecipe = (recID) => {
         return new Promise((resolve, reject) => {
           setTimeout((ID) => {
@@ -44,7 +40,6 @@
           }, 1500, recID);
         });
       };
-
       const getRelated = publisher => {
         return new Promise((resolve, reject) => {
             setTimeout(pub => {
@@ -73,7 +68,6 @@
           console.log("Error!");
         });
         
-
         async function getRecipesAW() {
           const IDs = await getIds;
           console.log(IDs);
@@ -81,28 +75,48 @@
           console.log(recipe);
           const related = await getRelated('Jonas Schmedtmann');
           console.log(related);
-
           return recipe;
         }
         getRecipesAW().then(result => console.log(`${result} is the best ever!`));
         */
-//'http://whateverorigin.org/https://www.metaweather.com/api/location/2487956'
+        //'http://whateverorigin.org/https://www.metaweather.com/api/location/2487956'
         
+        /*
         function getWeather(worldId) {
-          fetch
-          (`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${worldId}/`).then(result => {
-                                                                                                          console.log(result);
-                                                                                                          return result.json();})
-                                                                                                        .then(data => {
-                                                                                                          //console.log(data);
-                                                                                                          const today = data.consolidated_weather[0];
-                                                                                                          console.log(`Temperatures in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`)})
-                                                                                                        .catch(error => console.log(error));
+          fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${worldId}/`)
+          .then(result => {
+                //console.log(result);
+                return result.json();
+          }).then(data => {
+            console.log(data);
+            let today = data.consolidated_weather[0];
+            console.log(`Temperatures in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`);
+          }).catch(error => console.log(error));
         };
         
         getWeather(2487956);
         getWeather(44418);
+        */
+        async function getWeatherAW(worldId){
+          try {
+            const result = await fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${worldId}/`);
+            const data = await result.json();
+            const tomorrow = data.consolidated_weather[1];
+            console.log(`Temperatures tomorrow in ${data.title} stay between ${tomorrow.min_temp} and ${tomorrow.max_temp}.`);
+            
+            return data;
+          } catch(error) {
+            alert(error);
+          }
+        }
 
+        getWeatherAW(2487956);
+        let dataLondon;
+        getWeatherAW(44418).then(data => {
+          dataLondon = data;
+          console.log(dataLondon);
+        });
+        
     </script>
   </body>
 </html>
